@@ -48,3 +48,23 @@ techPills.forEach(pill => {
         pill.style.transform = 'scale(1.05)';
     });
 });
+
+let lastScrollY = window.scrollY;
+const navbar = document.getElementById("navbar");
+
+window.addEventListener("scroll", () => {
+  const currentScrollY = window.scrollY;
+
+  if (currentScrollY > lastScrollY) {
+    navbar.classList.add("hidden");
+  } else {
+    navbar.classList.remove("hidden");
+  }
+
+  lastScrollY = currentScrollY;
+});
+// Theme toggling logic
+themeToggle.addEventListener("click", (e) => {
+    e.preventDefault();
+    document.body.classList.toggle("light-theme");
+  });
