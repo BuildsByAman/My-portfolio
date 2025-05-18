@@ -5,6 +5,7 @@ window.addEventListener('load', () => {
 
 // Animation setup
 document.addEventListener('DOMContentLoaded', () => {
+    // Animate items on page load
     const animateItems = document.querySelectorAll('.animate-item');
     
     const animations = [];
@@ -26,6 +27,63 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         animations.push(animation);
+    });
+
+    // Smooth scrolling for navigation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Contact form handling
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            // Here you would typically send the form data to a server
+            // For now, we'll just show a success message
+            alert(`Thank you ${name}! Your message has been received. I'll get back to you soon.`);
+            
+            // Reset the form
+            contactForm.reset();
+        });
+    }
+
+    // Intersection Observer for scroll animations
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Observe all sections for scroll animations
+    document.querySelectorAll('.section').forEach(section => {
+        observer.observe(section);
     });
 });
 
